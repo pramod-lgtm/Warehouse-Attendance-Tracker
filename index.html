@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#12356b"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Karwa Warehouse & MFG Attendance">
+<title>Karwa Warehouse & MFG Attendance</title>
+<style>
+:root{--brand:#12356b;--acc:#e8821a;--ink:#1b1f2a;--muted:#667085;--line:#e5e8ee;--bg:#f4f6fa;--card:#fff;--good:#1f8a5b;--mid:#c98a12;--low:#c4384b;--r:14px}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;color:var(--ink);background:var(--bg);font-size:15px;line-height:1.45;overscroll-behavior-y:none}
+h2{font-size:1.25rem;margin:.2rem 0 .6rem}h3{font-size:1rem;margin:0 0 .5rem}
+.wrap{max-width:1100px;margin:0 auto;padding:12px 12px 92px}.role-admin .wrap{padding-bottom:30px;max-width:1300px}
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--brand);color:#fff}
+.top b{font-size:1.02rem}.top small{opacity:.8;display:block;font-size:.72rem;line-height:1}
+.logo{display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:#fff;color:var(--brand);font-weight:800;font-size:.8rem}
+.anav{display:flex;gap:3px;flex:1;overflow-x:auto}.anav a{color:#fff;text-decoration:none;padding:7px 10px;border-radius:9px;opacity:.85;white-space:nowrap;font-size:.9rem}.anav a.on{background:rgba(255,255,255,.2);opacity:1}
+.who{margin-left:auto;font-size:.82rem;display:flex;gap:6px;align-items:center;white-space:nowrap}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:13px;margin-bottom:11px}
+.muted{color:var(--muted)}.small{font-size:.82rem}.center{text-align:center}.hidden{display:none!important}.mt{margin-top:10px}.right{text-align:right}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}
+button,.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font:inherit;font-weight:600;border-radius:11px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 14px;cursor:pointer}
+button:disabled{opacity:.5}.primary{background:var(--brand);border-color:var(--brand);color:#fff}.accent{background:var(--acc);border-color:var(--acc);color:#fff}
+.danger{color:var(--low);border-color:#f0c2c9}.good{color:var(--good);border-color:#b9e2cd}.sm{padding:5px 9px;font-size:.82rem;border-radius:8px}.block{width:100%}.big{padding:18px;font-size:1.15rem}
+input,select,textarea{width:100%;font:inherit;font-size:16px;padding:10px 11px;border:1px solid #d5dae3;border-radius:10px;background:#fff;color:var(--ink)}
+input[type=checkbox],input[type=radio]{width:auto}label{display:block;font-size:.84rem;color:var(--muted);font-weight:500}label>input,label>select,label>textarea{margin-top:4px;color:var(--ink)}
+.stack>*+*{margin-top:11px}.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:560px){.g3,.g4{grid-template-columns:1fr 1fr}.anav{display:none}.top .who span.nm{display:none}}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;background:#fff;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+.tabs a{flex:1;text-align:center;padding:8px 2px 7px;font-size:.72rem;color:var(--muted);text-decoration:none}.tabs a b{display:block;font-size:1.25rem;line-height:1.2}.tabs a.on{color:var(--brand);font-weight:700}
+.chip{display:inline-block;min-width:34px;text-align:center;padding:2px 8px;border-radius:999px;font-weight:700;font-size:.8rem;border:1px solid var(--line);background:#f1f3f7;color:#475467}
+.chip.P{background:#e3f5ec;color:var(--good);border-color:#b9e2cd}.chip.WO{background:#e4eefc;color:#2b5fb4;border-color:#bcd2f3}.chip.HD{background:#fdf1d9;color:#9a6a06;border-color:#f1d9a0}.chip.CO{background:#efe7fb;color:#6a3fb0;border-color:#d6c6f1}.chip.A{background:#fde6e9;color:var(--low);border-color:#f3bfc6}
+.chip.pending{background:#f1f3f7;color:#667085;border-style:dashed}.chip.rejected{background:#fff;color:var(--low);border-color:var(--low)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.cal .h{text-align:center;font-size:.72rem;color:var(--muted)}
+.cal .d{min-height:58px;border:1px solid var(--line);border-radius:10px;padding:4px 3px;text-align:center;background:#fff;cursor:pointer;font-size:.8rem}.cal .d.today{border-color:var(--brand);box-shadow:0 0 0 1px var(--brand)}.cal .d.e{border:0;background:none;cursor:default}.cal .d .chip{margin-top:3px;font-size:.66rem;padding:1px 4px;min-width:0}
+.big-btn{display:block;width:100%;padding:26px 10px;font-size:1.5rem;border-radius:18px}
+table{border-collapse:collapse;width:100%}th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;font-size:.88rem;vertical-align:middle}th{font-size:.74rem;text-transform:uppercase;color:var(--muted);letter-spacing:.03em;background:#fafbfd;position:sticky;top:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}.scroll{overflow-x:auto}
+.kpi{display:block;text-decoration:none;color:inherit}.kpi b{display:block;font-size:1.6rem}.kpi span{font-size:.8rem;color:var(--muted)}
+.msg{padding:10px 12px;border-radius:10px;margin-bottom:10px;font-size:.92rem}.msg.ok{background:#e3f5ec;color:#14634a}.msg.err{background:#fde6e9;color:#8c2433}.msg.info{background:#e8eefb;color:#1d3f87}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(15,20,35,.55);display:flex;align-items:flex-end;justify-content:center}.modal>.box{background:#fff;width:100%;max-width:520px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:16px}
+@media(min-width:700px){.modal{align-items:center}.modal>.box{border-radius:18px}}
+.thumb{width:54px;height:54px;object-fit:cover;border-radius:8px;border:1px solid var(--line);cursor:zoom-in;background:#eef}
+video.live{width:100%;border-radius:12px;background:#000;transform:scaleX(-1);max-height:60vh}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid #ccd;border-top-color:var(--brand);border-radius:50%;animation:sp .8s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+.pw{position:relative}.pw button{position:absolute;right:4px;top:22px;padding:4px 8px;font-size:.8rem}
+.print-only{display:none}
+@media print{.top,.tabs,.noprint,button{display:none!important}.print-only{display:block}.wrap{padding:0;max-width:none}body{background:#fff}.card{border:0;padding:0}th{position:static}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="modal"></div>
+<script src="config.js"></script>
+<script>
+'use strict';
+// =====================================================================================================
+// Karwa Warehouse & MFG Attendance (frontend). Draws only what the server sends. Staff / managers never receive times, hours, selfies or GPS.
+// =====================================================================================================
+var API = (window.WHM_API_URL || '').trim();
+var S = { token: localStorage.getItem('whm_tok') || '', user: null, boot: null, stores: [], busy: 0 };
+try { S.user = JSON.parse(localStorage.getItem('whm_user') || 'null'); } catch (e) { S.user = null; }
+var $ = function (id) { return document.getElementById(id); };
+function h(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function dmy(s) { if (!s) return ''; var a = String(s).slice(0, 10).split('-'); return a[2] + '-' + a[1] + '-' + a[0]; }
+var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], DOW = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+function pad(n) { return (n < 10 ? '0' : '') + n; }
+function addDays(d, n) { var a = d.split('-').map(Number), t = new Date(Date.UTC(a[0], a[1] - 1, a[2] + n)); return t.getUTCFullYear() + '-' + pad(t.getUTCMonth() + 1) + '-' + pad(t.getUTCDate()); }
+function monthLabel(m) { var a = m.split('-'); return MON[Number(a[1]) - 1] + ' ' + a[0]; }
+function addMonth(m, n) { var a = m.split('-').map(Number), t = new Date(Date.UTC(a[0], a[1] - 1 + n, 1)); return t.getUTCFullYear() + '-' + pad(t.getUTCMonth() + 1); }
+function today() { return (S.boot && S.boot.today) || new Date().toISOString().slice(0, 10); }
+var LABEL = { P: 'Present', WO: 'Week Off', HD: 'Half Day', CO: 'Comp Off', A: 'Absent', pending: 'Pending', rejected: 'Rejected' };
+function chip(s) { if (!s) return ''; return '<span class="chip ' + h(s) + '">' + h(s === 'pending' ? 'Pending' : s === 'rejected' ? 'Rejected' : s) + '</span>'; }
+function msg(kind, text) { return '<div class="msg ' + kind + '">' + h(text) + '</div>'; }
+function toast(text, kind) { var el = document.createElement('div'); el.className = 'msg ' + (kind || 'ok'); el.style.cssText = 'position:fixed;left:12px;right:12px;top:60px;z-index:80;box-shadow:0 4px 18px rgba(0,0,0,.2)'; el.textContent = text; document.body.appendChild(el); setTimeout(function () { el.remove(); }, kind === 'err' ? 5200 : 2600); }
+function fail(e) { toast(String((e && e.message) || e), 'err'); }
+
+// ---- API
+function call(action, data) {
+  if (!API || /PASTE_YOUR/.test(API)) return Promise.reject(new Error('API URL set nahi hai. config.js mein Web app URL daalein.'));
+  S.busy++;
+  return fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: action, token: S.token, data: data || {} }) })
+    .then(function (r) { return r.json(); }).then(function (j) {
+      S.busy--;
+      if (j && j.auth === false) { logout(true); throw new Error(j.error); }
+      if (j && j.mustChange) { go('#/pw'); throw new Error(j.error); }
+      if (!j || !j.ok) throw new Error((j && j.error) || 'Kuch gadbad hui');
+      return j.data;
+    }).catch(function (e) { S.busy = Math.max(0, S.busy - 1); if (/Failed to fetch|NetworkError|Load failed/i.test(String(e.message))) throw new Error('Internet nahi chal raha. Dobara try karein.'); throw e; });
+}
+function saveSession(token, user) { S.token = token; S.user = user; localStorage.setItem('whm_tok', token); localStorage.setItem('whm_user', JSON.stringify(user)); }
+function logout(silent) { if (!silent && S.token) call('logout').catch(function () {}); S.token = ''; S.user = null; S.boot = null; localStorage.removeItem('whm_tok'); localStorage.removeItem('whm_user'); go('#/login'); }
+
+// ---- modal + camera
+function modal(html, onclose) { var m = $('modal'); m.innerHTML = '<div class="modal" data-act="mclose"><div class="box" data-stop="1">' + html + '</div></div>'; m._close = onclose; }
+function closeModal() { var m = $('modal'); if (m._close) { try { m._close(); } catch (e) {} } m._close = null; m.innerHTML = ''; }
+function stopStream(s) { if (s) s.getTracks().forEach(function (t) { t.stop(); }); }
+function geo() { return new Promise(function (res) { if (!navigator.geolocation) return res({}); var done = false, to = setTimeout(function () { if (!done) { done = true; res({}); } }, 6000); navigator.geolocation.getCurrentPosition(function (p) { if (done) return; done = true; clearTimeout(to); res({ lat: p.coords.latitude, lng: p.coords.longitude, acc: p.coords.accuracy }); }, function () { if (!done) { done = true; clearTimeout(to); res({}); } }, { enableHighAccuracy: true, timeout: 5500, maximumAge: 20000 }); }); }
+/** Live camera only (getUserMedia). No file picker, so a gallery photo cannot be chosen. Resolves with a compressed JPEG data URL. */
+function takeSelfie(title) {
+  return new Promise(function (resolve, reject) {
+    var stream = null, done = false;
+    function finish(v, err) { if (done) return; done = true; stopStream(stream); $('modal')._close = null; $('modal').innerHTML = ''; if (err) reject(err); else resolve(v); }
+    modal('<h3>' + h(title) + '</h3><div id="camBody" class="stack"><div class="muted center"><span class="spin"></span> Camera khul raha hai…</div></div><div class="row mt"><button class="block" id="camCancel">Cancel</button></div>', function () { if (!done) { done = true; stopStream(stream); reject(new Error('Cancelled')); } });
+    $('camCancel').onclick = function () { finish(null, new Error('Cancelled')); };
+    function fallback(why) {
+      if (window.WHM_ALLOW_CAPTURE_FALLBACK) { $('camBody').innerHTML = msg('info', why + ' Camera se photo lein.') + '<label class="btn primary block">📷 Photo lo<input type="file" accept="image/*" capture="user" class="hidden" id="camFile"></label>'; $('camFile').onchange = function (e) { var f = e.target.files[0]; if (!f) return; var fr = new FileReader(); fr.onload = function () { shrink(fr.result).then(function (d) { finish(d); }).catch(function (er) { finish(null, er); }); }; fr.readAsDataURL(f); }; }
+      else { $('camBody').innerHTML = msg('err', why + ' Browser settings mein Camera ko Allow karein, phir dobara try karein.'); }
+    }
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return fallback('Is phone ka live camera nahi mil raha.');
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 960 }, height: { ideal: 960 } }, audio: false }).then(function (st) {
+      if (done) return stopStream(st); stream = st;
+      $('camBody').innerHTML = '<video class="live" id="camVid" autoplay playsinline muted></video><button class="primary block big" id="camShot">📸 Photo lo</button>';
+      var v = $('camVid'); v.srcObject = st; v.setAttribute('playsinline', ''); var p = v.play && v.play(); if (p && p.catch) p.catch(function () {});
+      $('camShot').onclick = function () {
+        if (!v.videoWidth) return toast('Camera abhi ready nahi hai. Ek second ruko.', 'err');
+        var cv = document.createElement('canvas'), sc = Math.min(1, 640 / Math.max(v.videoWidth, v.videoHeight)); cv.width = Math.round(v.videoWidth * sc); cv.height = Math.round(v.videoHeight * sc);
+        cv.getContext('2d').drawImage(v, 0, 0, cv.width, cv.height); var data = cv.toDataURL('image/jpeg', 0.6);
+        stopStream(stream); stream = null;
+        $('camBody').innerHTML = '<img src="' + data + '" style="width:100%;border-radius:12px;transform:scaleX(-1)"><div class="g2 mt"><button id="camRetake">Dobara lein</button><button class="primary" id="camUse">✓ Yeh theek hai</button></div>';
+        $('camUse').onclick = function () { finish(data); };
+        $('camRetake').onclick = function () { done = true; $('modal')._close = null; takeSelfie(title).then(resolve, reject); };
+      };
+    }).catch(function () { fallback('Camera ki permission nahi mili.'); });
+  });
+}
+function shrink(dataUrl) { return new Promise(function (res, rej) { var im = new Image(); im.onload = function () { var cv = document.createElement('canvas'), sc = Math.min(1, 640 / Math.max(im.width, im.height)); cv.width = Math.round(im.width * sc); cv.height = Math.round(im.height * sc); cv.getContext('2d').drawImage(im, 0, 0, cv.width, cv.height); res(cv.toDataURL('image/jpeg', 0.6)); }; im.onerror = function () { rej(new Error('Photo padh nahi paye')); }; im.src = dataUrl; }); }
+
+// ---- router
+var ROUTES = [];
+function on(re, fn, role) { ROUTES.push({ re: re, fn: fn, role: role }); }
+function go(hash) { if (location.hash === hash) route(); else location.hash = hash; }
+window.addEventListener('hashchange', function () { route(); });
+function route() {
+  closeModal(); var hash = location.hash || '#/home';
+  if (!S.token) { if (hash !== '#/login') { location.hash = '#/login'; return; } }
+  if (S.token && hash === '#/login') { location.hash = '#/home'; return; }
+  for (var i = 0; i < ROUTES.length; i++) { var m = hash.match(ROUTES[i].re); if (m) { var R = ROUTES[i]; if (R.role && S.user && R.role.indexOf(S.user.role) < 0) { location.hash = '#/home'; return; } return R.fn(m); } }
+  location.hash = '#/home';
+}
+function isAdmin() { return S.user && S.user.role === 'admin'; }
+var ANAV = [['#/home', 'Dashboard'], ['#/day', 'Daily'], ['#/range', 'Staff / Unit'], ['#/requests', 'Requests'], ['#/mark', 'Mark / CO'], ['#/month', 'Payroll'], ['#/people', 'People'], ['#/audit', 'Audit'], ['#/settings', 'Settings'], ['#/info', 'Info']];
+var SNAV = [['#/home', '🏠', 'Aaj'], ['#/cal', '📅', 'Calendar'], ['#/req', '📝', 'Requests'], ['#/more', '⚙️', 'More']];
+function shell(body, active) {
+  var admin = isAdmin(), hash = active || location.hash.split('?')[0], mgr = S.user.role === 'manager', tabs = SNAV.slice(); if (mgr) tabs.splice(1, 0, ['#/store', '🏬', 'Unit']);
+  $('app').innerHTML = '<div class="' + (admin ? 'role-admin' : '') + '"><div class="top"><div class="logo">WM</div><div><b>Karwa Warehouse & MFG Attendance</b><small>' + h(S.user.store_name || S.user.role_label) + '</small></div>' +
+    (admin ? '<div class="anav">' + ANAV.map(function (n) { return '<a href="' + n[0] + '" class="' + (hash === n[0] ? 'on' : '') + '">' + n[1] + '</a>'; }).join('') + '</div>' : '') +
+    '<div class="who"><span class="nm">' + h(S.user.name) + '</span><button class="sm" data-act="logout">Logout</button></div></div>' +
+    (admin ? '<div class="noprint" style="padding:6px 10px;background:#fff;border-bottom:1px solid var(--line)"><select id="amenu" data-change="amenu">' + ANAV.map(function (n) { return '<option value="' + n[0] + '"' + (hash === n[0] ? ' selected' : '') + '>' + n[1] + '</option>'; }).join('') + '</select></div>' : '') +
+    '<div class="wrap">' + body + '</div>' +
+    (admin ? '' : '<div class="tabs">' + tabs.map(function (t) { return '<a href="' + t[0] + '" class="' + (hash === t[0] ? 'on' : '') + '"><b>' + t[1] + '</b>' + t[2] + '</a>'; }).join('') + '</div>') + '</div>';
+  var am = $('amenu'); if (am && window.matchMedia && window.matchMedia('(min-width:561px)').matches) am.parentNode.style.display = 'none';
+}
+function loading(t) { shell('<div class="card muted center"><span class="spin"></span> ' + h(t || 'Load ho raha hai…') + '</div>'); }
+function ensureBoot() { if (S.boot) return Promise.resolve(S.boot); return call('boot').then(function (b) { S.boot = b; S.stores = b.stores || []; S.user = Object.assign(S.user || {}, b.user); return b; }); }
+function storeOpts(sel, all) { return (all ? '<option value="">Sab stores</option>' : '') + S.stores.filter(function (s) { return s.active !== 0; }).map(function (s) { return '<option value="' + s.id + '"' + (String(sel) === String(s.id) ? ' selected' : '') + '>' + h(s.name) + '</option>'; }).join(''); }
+
+// ---- login + password
+on(/^#\/login$/, function () {
+  $('app').innerHTML = '<div class="wrap" style="max-width:420px;padding-top:40px"><div class="center"><div class="logo" style="width:64px;height:64px;font-size:1.4rem;margin:0 auto 10px;background:var(--brand);color:#fff;border-radius:18px">WM</div><h2>Karwa Warehouse & MFG Attendance</h2><div class="muted small">Staff ID aur password se login karein</div></div>' +
+    '<form class="card stack mt" data-form="login"><label>Staff ID<input name="login_id" autocomplete="username" autocapitalize="off" value="' + h(localStorage.getItem('whm_login') || '') + '" required></label><div class="pw"><label>Password<input name="password" type="password" autocomplete="current-password" required></label><button type="button" data-act="showpw">Show</button></div><div id="lerr"></div><button class="primary block big">Login</button></form><div class="muted small center">Password bhool gaye? Apne Admin se reset karwayein.</div></div>';
+});
+on(/^#\/pw$/, function () {
+  var forced = S.user && S.user.must_change;
+  (S.user ? shell : function (b) { $('app').innerHTML = '<div class="wrap">' + b + '</div>'; })('<div class="card narrow stack" style="max-width:460px"><h2>Naya password banayein</h2>' + (forced ? msg('info', 'Pehli baar login hai. Apna khud ka password banayein.') : '') +
+    '<form class="stack" data-form="pw"><label>Purana / temporary password<input name="old" type="password" autocomplete="current-password" required></label><label>Naya password (kam se kam 6 akshar, letters + number)<input name="pw" type="password" autocomplete="new-password" required></label><label>Naya password dobara<input name="pw2" type="password" autocomplete="new-password" required></label><button class="primary block">Save</button></form></div>', '#/pw');
+});
+
+// ---- staff: Home (IN / OUT)
+on(/^#\/home$/, function () {
+  if (isAdmin()) return adminHome();
+  loading(); ensureBoot().then(function () { return call('today'); }).then(function (t) {
+    var st = t.state, b = '';
+    b += '<div class="card center"><div class="muted small">' + h(dmy(t.date)) + ' · ' + h(t.store ? t.store.name : '') + '</div><h2>Namaste, ' + h(S.user.name) + '</h2>';
+    b += '<div class="mt">Aaj ka status: ' + (t.day ? chip(t.day) : '<span class="muted">—</span>') + '</div>';
+    if (t.day === 'pending') b += '<div class="muted small">Admin approve karega tab letter dikhega.</div>';
+    b += '</div>';
+    if (st === 'none') b += '<button class="primary big-btn" data-act="punch" data-kind="IN">🟢 IN (aa gaye)</button>';
+    else if (st === 'in') b += '<div class="msg ok">IN recorded ✓</div><button class="accent big-btn" data-act="punch" data-kind="OUT">🔴 OUT (ja rahe hain)</button>';
+    else b += '<div class="msg ok">IN aur OUT dono recorded ✓. Aaj ka kaam ho gaya.</div>';
+    b += '<div class="card mt"><div class="muted small">Selfie sirf live camera se hi liya jata hai. Samay server khud lagata hai, aap badal nahi sakte. Aapko apna IN/OUT ka samay aur ghante nahi dikhte.</div></div>';
+    b += '<div class="g2"><a class="btn" href="#/cal">📅 Mera calendar</a><a class="btn" href="#/req">📝 WO / Regularise</a></div>';
+    shell(b);
+  }).catch(function (e) { shell(msg('err', e.message) + '<button data-act="reload">Dobara try karein</button>'); });
+});
+function doPunch(kind, btn) {
+  takeSelfie(kind === 'IN' ? 'IN ke liye selfie' : 'OUT ke liye selfie').then(function (photo) {
+    btn.disabled = true; var t = document.createElement('div'); t.id = 'busyMsg'; t.className = 'msg info'; t.textContent = 'Bhej rahe hain…'; btn.parentNode.insertBefore(t, btn);
+    return geo().then(function (g) { return call('punch', { kind: kind, photo: photo, lat: g.lat, lng: g.lng, acc: g.acc }); });
+  }).then(function (r) { toast(r.message + ' ✓'); route(); }).catch(function (e) { var x = $('busyMsg'); if (x) x.remove(); btn.disabled = false; if (e && e.message !== 'Cancelled') fail(e); });
+}
+
+// ---- staff: calendar
+var CALM = '';
+on(/^#\/cal(?:\?m=(\d{4}-\d{2}))?$/, function (m) {
+  loading(); CALM = m[1] || CALM || ''; ensureBoot().then(function () { return call('myCalendar', { month: CALM || today().slice(0, 7) }); }).then(function (c) {
+    CALM = c.month; var first = new Date(Date.UTC(+c.month.slice(0, 4), +c.month.slice(5) - 1, 1)).getUTCDay(), lead = (first + 6) % 7, cells = '';
+    DOW.forEach(function (d) { cells += '<div class="h">' + d + '</div>'; }); for (var i = 0; i < lead; i++) cells += '<div class="d e"></div>';
+    c.days.forEach(function (d) { cells += '<div class="d' + (d.date === c.today ? ' today' : '') + '" data-act="calday" data-date="' + d.date + '"><div>' + Number(d.date.slice(8)) + '</div>' + (d.s ? chip(d.s) : '') + (d.reg ? '<div class="small muted">Reg: ' + h(d.reg) + '</div>' : '') + '</div>'; });
+    var t = c.tally, b = '<div class="card"><div class="row between"><a class="btn sm" href="#/cal?m=' + addMonth(c.month, -1) + '">‹</a><b>' + monthLabel(c.month) + '</b><a class="btn sm" href="#/cal?m=' + addMonth(c.month, 1) + '">›</a></div></div>' +
+      '<div class="card"><div class="cal">' + cells + '</div></div>' +
+      '<div class="card"><div class="row">' + ['P', 'WO', 'HD', 'CO', 'A'].map(function (k) { return chip(k) + ' ' + t[k]; }).join(' &nbsp; ') + ' &nbsp; ' + chip('pending') + ' ' + c.pending + '</div><div class="muted small mt">P Present · WO Week Off · HD Half Day · CO Comp Off · A Absent. Pending = Admin approval baaki hai.</div></div>';
+    shell(b, '#/cal');
+  }).catch(function (e) { shell(msg('err', e.message)); });
+});
+
+// ---- staff: requests (Week Off + Regularise)
+on(/^#\/req$/, function () {
+  loading(); ensureBoot().then(function () { return call('myRequests'); }).then(function (r) {
+    var t = today(), win = S.boot.reg_window_days || 1, b = '<div class="card stack"><h3>🗓️ Week Off maangein</h3><form class="stack" data-form="wo"><div class="g2"><label>Date<input type="date" name="date" min="' + t + '" max="' + addDays(t, S.boot.wo_advance_days || 45) + '" value="' + addDays(t, 1) + '" required></label><label>Note (optional)<input name="note" maxlength="100"></label></div><button class="primary block">Request bhejein</button></form><div class="muted small">Admin approve karega tab hi WO calendar mein dikhega.</div></div>';
+    b += '<div class="card stack"><h3>✍️ Chhoota hua attendance (Regularise)</h3><div class="muted small">Sirf agle din (' + win + ' din) tak request ho sakti hai. Late hone par Admin se seedha baat karein.</div><form class="stack" data-form="reg"><div class="g2"><label>Kaun si date<input type="date" name="date" max="' + t + '" min="' + addDays(t, -Math.max(win, 1)) + '" value="' + addDays(t, -1) + '" required></label><label>Kya chhoota<select name="which"><option value="BOTH">IN + OUT dono</option><option value="IN">Sirf IN</option><option value="OUT">Sirf OUT</option></select></label></div><label>Wajah (reason)<textarea name="reason" rows="2" maxlength="300" required></textarea></label><button class="primary block">Request bhejein</button></form></div>';
+    b += '<div class="card"><h3>Meri Week Off requests</h3>' + (r.wo.length ? r.wo.map(function (x) { return '<div class="row between" style="padding:6px 0;border-bottom:1px solid var(--line)"><span>' + dmy(x.date) + '</span><span>' + (x.status === 'approved' ? chip('WO') : x.status === 'rejected' ? chip('rejected') : chip('pending') + ' <button class="sm danger" data-act="cancelwo" data-id="' + x.id + '">Cancel</button>') + (x.remark ? ' <span class="small muted">' + h(x.remark) + '</span>' : '') + '</span></div>'; }).join('') : '<div class="muted">Koi nahi</div>') + '</div>';
+    b += '<div class="card"><h3>Meri Regularise requests</h3>' + (r.reg.length ? r.reg.map(function (x) { return '<div style="padding:6px 0;border-bottom:1px solid var(--line)"><div class="row between"><span>' + dmy(x.date) + ' · ' + h(x.which) + '</span><span>' + (x.status === 'approved' ? chip(x.result_status || 'P') + ' <span class="small muted">Approved</span>' : x.status === 'rejected' ? chip('rejected') : chip('pending')) + '</span></div><div class="small muted">' + h(x.reason) + (x.remark ? ' · Admin: ' + h(x.remark) : '') + '</div></div>'; }).join('') : '<div class="muted">Koi nahi</div>') + '</div>';
+    shell(b, '#/req');
+  }).catch(function (e) { shell(msg('err', e.message)); });
+});
+
+// ---- manager: store Present / Absent
+var STD = '';
+on(/^#\/store$/, function () {
+  loading(); ensureBoot().then(function () { return Promise.all([call('storeToday', { date: STD }), call('woRequests')]); }).then(function (a) {
+    var r = a[0], q = a[1], b = '<div class="card row between"><b>' + h(r.store.name) + '</b><input type="date" id="stdate" value="' + r.date + '" max="' + today() + '" data-change="stdate" style="width:auto"></div>';
+    b += '<div class="g2"><div class="card center"><b style="font-size:1.6rem;color:var(--good)">' + r.present + '</b><div class="muted small">Present</div></div><div class="card center"><b style="font-size:1.6rem;color:var(--low)">' + r.absent + '</b><div class="muted small">Absent</div></div></div>';
+    b += '<div class="card">' + r.rows.map(function (x) { return '<div class="row between" style="padding:7px 0;border-bottom:1px solid var(--line)"><span>' + h(x.name) + ' <span class="small muted">' + h(x.login_id) + '</span></span><span class="chip ' + (x.status === 'Present' ? 'P' : x.status === 'Off' ? 'WO' : 'A') + '">' + h(x.status) + '</span></div>'; }).join('') + '</div>';
+    if (r.can_decide_wo) b += '<div class="card"><h3>Week Off requests (aapka store)</h3>' + (q.wo.length ? q.wo.map(function (x) { return '<div class="row between" style="padding:6px 0"><span>' + h(x.name) + ' · ' + dmy(x.date) + '</span><span><button class="sm good" data-act="mwo" data-id="' + x.id + '" data-ok="1">Approve</button> <button class="sm danger" data-act="mwo" data-id="' + x.id + '" data-ok="0">Reject</button></span></div>'; }).join('') : '<div class="muted">Koi pending nahi</div>') + '</div>';
+    b += '<div class="muted small">Supervisor ko sirf Present / Absent dikhta hai. Time, hours ya selfie nahi.</div>';
+    shell(b, '#/store');
+  }).catch(function (e) { shell(msg('err', e.message)); });
+});
+
+// ---- more / info
+var INFO_STAFF = '<h3>Staff ke liye</h3><ul><li><b>IN / OUT:</b> Home par bada button dabayein, selfie lein (sirf live camera). Time server khud lagata hai.</li><li><b>Status:</b> Aapko time ya hours nahi dikhte. Admin approve karega tab calendar mein P / WO / HD / CO / A dikhega. Tab tak "Pending".</li><li><b>Week Off:</b> Requests tab se date chuniye. Admin approve karega.</li><li><b>Chhoota hua IN/OUT:</b> Agle din tak Regularise request bhejein. Late hone par Admin se baat karein.</li><li><b>CO (Comp Off):</b> Festival ya extra kaam ke badle Admin lagata hai.</li><li><b>Password:</b> More &gt; Password badlein. Bhool jayein to Admin se reset karwayein.</li></ul>';
+var INFO_ADMIN = '<h3>Admin ke liye</h3><ul><li><b>Daily:</b> din ka roster, selfie, IN/OUT time, Approve / Reject (ek ek ya sab). P / HD / WO / CO / A seedha lagayein. Edit se time badlein (audit log mein jata hai).</li><li><b>Staff / Unit:</b> date range mein staff-wise aur unit-wise count aur payable days.</li><li><b>Requests:</b> Week Off aur Regularise requests approve / reject.</li><li><b>Mark / CO:</b> kai staff x kai dates ek saath, CO ke liye festival ka naam likhein.</li><li><b>Payroll:</b> mahine ki report, CSV download, Print. "Unmarked" din Absent karne se pehle preview dikhta hai. Payroll ke baad mahina Lock karein.</li><li><b>People:</b> Unit aur Staff add, CSV import, password reset.</li><li><b>Rule:</b> sirf IN hai aur Admin ne kuch nahi kiya = Pending. Bina punch wale din tab hi Absent bante hain jab aap Absent karein ya mahina finalise karein.</li></ul>';
+on(/^#\/more$/, function () {
+  shell('<div class="card stack"><h3>' + h(S.user.name) + '</h3><div class="muted">ID: ' + h(S.user.login_id) + ' · ' + h(S.user.role_label) + ' · ' + h(S.user.store_name) + '</div><a class="btn block" href="#/pw">🔑 Password badlein</a><a class="btn block" href="#/info">ℹ️ App kaise use karein</a><button class="block danger" data-act="logout">Logout</button></div>', '#/more');
+});
+on(/^#\/info$/, function () { shell('<div class="card">' + INFO_STAFF + (isAdmin() ? INFO_ADMIN : '') + '<div class="muted small">Selfie sirf live camera se. Aapka data sirf company ke Google Sheet mein rehta hai.</div></div>', '#/info'); });
+
+// =====================================================================================================
+// ADMIN
+// =====================================================================================================
+var PH = {}, GIF = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+function formData(f) { var o = {}; new FormData(f).forEach(function (v, k) { o[k] = v; }); return o; }
+function sec(title, inner) { return '<div class="card"><h3>' + title + '</h3>' + inner + '</div>'; }
+function adminHome() {
+  loading(); ensureBoot().then(function () { return call('dashboard'); }).then(function (d) {
+    var k = function (n, label, href, warn) { return '<a class="card kpi center" href="' + href + '"><b' + (warn && n ? ' style="color:var(--low)"' : '') + '>' + n + '</b><span>' + label + '</span></a>'; };
+    shell('<h2>Dashboard · ' + dmy(d.today) + '</h2><div class="g4">' + k(d.staff, 'Active staff', '#/people') + k(d.punched_today, 'IN aaj', '#/day') + k(d.pending_punch, 'Approval baaki (punch)', '#/day', 1) + k(d.pending_wo, 'WO requests', '#/requests', 1) + k(d.pending_reg, 'Regularise requests', '#/requests', 1) + k(d.unmarked_yesterday, 'Kal ke unmarked', '#/month', 1) + k(d.stores, 'Stores', '#/people') + '</div>' +
+      '<div class="card muted small">Rule: sirf IN hai aur approve nahi kiya = Pending. Bina punch wale din tab hi Absent hote hain jab aap Absent karein ya mahina finalise karein (Payroll screen, preview ke saath).</div>', '#/home');
+  }).catch(function (e) { shell(msg('err', e.message)); });
+}
+
+// ---- Daily roster
+var AD = { date: '', store: '' };
+on(/^#\/day$/, function () { renderDay(); }, ['admin']);
+function renderDay() {
+  loading(); ensureBoot().then(function () { return call('adminDay', { date: AD.date || today(), store_id: AD.store }); }).then(function (r) {
+    AD.date = r.date; var c = r.counts, ids = [];
+    var rows = r.rows.map(function (x) {
+      var a = x.row, ph = '', st = '';
+      if (a) {
+        [['in', 'IN'], ['out', 'OUT']].forEach(function (k) { var id = a[k[0] + '_photo_id']; if (id) { ids.push(id); ph += '<img class="thumb" alt="' + k[1] + '" data-pid="' + id + '" data-act="ph" src="' + (PH[id] || GIF) + '"> '; } });
+        st = (a.approval === 'approved' ? chip(a.status) : a.approval === 'pending' ? chip('pending') + ' <span class="small muted">' + h(a.status) + '</span>' : chip('rejected')) + (a.source !== 'punch' ? ' <span class="small muted">' + h(a.source) + '</span>' : '');
+      } else st = '<span class="muted">Koi record nahi</span>';
+      var gps = a && a.in_lat ? ' <a href="https://www.google.com/maps?q=' + a.in_lat + ',' + a.in_lng + '" target="_blank" rel="noopener">📍</a>' : '';
+      return '<tr data-uid="' + x.user_id + '"><td><b>' + h(x.name) + '</b>' + (x.role === 'manager' ? ' <span class="small muted">(mgr)</span>' : '') + '<div class="small muted">' + h(x.login_id) + ' · ' + h(x.store) + (x.reg ? ' · <b style="color:var(--acc)">Reg request</b>' : '') + '</div></td><td>' + st + (a && a.remark ? '<div class="small muted">' + h(a.remark) + '</div>' : '') + '</td><td class="n">' + h(a && a.in_hm || '') + '</td><td class="n">' + h(a && a.out_hm || '') + '</td><td class="n">' + h(a && a.hours !== '' && a ? a.hours : '') + '</td><td>' + ph + gps + '</td><td style="white-space:nowrap">' +
+        (a && a.approval === 'pending' && a.in_at ? '<button class="sm good" data-act="appr" data-id="' + a.id + '">✓</button> <button class="sm danger" data-act="rej" data-id="' + a.id + '">✗</button> ' : '') +
+        '<button class="sm" data-act="markm" data-uid="' + x.user_id + '" data-name="' + h(x.name) + '">Mark</button> <button class="sm" data-act="editm" data-uid="' + x.user_id + '" data-name="' + h(x.name) + '">Edit</button></td></tr>';
+    }).join('');
+    shell('<div class="card"><div class="row"><label>Date<input type="date" id="dd" value="' + r.date + '" data-change="dday" style="width:auto"></label><label>Unit<select id="ds" data-change="dday" style="width:auto">' + storeOpts(AD.store, true) + '</select></label><button class="sm" data-act="dprev">‹ Kal</button><button class="sm" data-act="dnext">Agla ›</button>' + (r.locked ? ' <span class="chip rejected">Month LOCKED</span>' : '') + '</div></div>' +
+      '<div class="card"><div class="row">' + ['P', 'WO', 'HD', 'CO', 'A'].map(function (k) { return chip(k) + ' ' + c[k]; }).join(' &nbsp; ') + ' &nbsp; ' + chip('pending') + ' ' + c.pending + ' &nbsp; <span class="muted">Koi record nahi: ' + c.none + '</span></div><div class="row mt"><button class="primary sm" data-act="bulkappr">✓ Is din ke saare Pending punch approve (' + (AD.store ? 'is unit ke' : 'sab unit') + ')</button><button class="sm" data-act="loadph">📷 Saari selfies load karein</button></div></div>' +
+      '<div class="card scroll"><table><thead><tr><th>Staff</th><th>Status</th><th class="n">IN</th><th class="n">OUT</th><th class="n">Hours</th><th>Selfie / GPS</th><th></th></tr></thead><tbody>' + (rows || '<tr><td colspan="7" class="muted">Koi staff nahi. People mein staff add karein.</td></tr>') + '</tbody></table></div>', '#/day');
+    window._dayIds = ids;
+  }).catch(function (e) { shell(msg('err', e.message)); });
+}
+function loadPhotos(ids) {
+  ids = ids.filter(function (i) { return i && !PH[i]; }); if (!ids.length) return Promise.resolve();
+  var chunks = []; for (var i = 0; i < ids.length; i += 12) chunks.push(ids.slice(i, i + 12));
+  return chunks.reduce(function (p, ch) { return p.then(function () { return call('photos', { ids: ch }); }).then(function (m) { Object.keys(m).forEach(function (k) { if (m[k]) PH[k] = m[k]; }); paintPhotos(); }); }, Promise.resolve());
+}
+function paintPhotos() { document.querySelectorAll('img[data-pid]').forEach(function (im) { var d = PH[im.getAttribute('data-pid')]; if (d) im.src = d; }); }
+function showPhoto(pid) { loadPhotos([pid]).then(function () { if (!PH[pid]) return toast('Photo nahi mili', 'err'); modal('<img src="' + PH[pid] + '" style="width:100%;border-radius:12px"><button class="block mt" data-act="mclose2">Band karein</button>'); }).catch(fail); }
+function rowForm(title, uid, name, kind) {
+  var date = AD.date || today();
+  modal('<h3>' + h(title) + ': ' + h(name) + '</h3><form class="stack" data-form="' + kind + '" data-uid="' + uid + '"><label>Date<input type="date" name="date" value="' + date + '" required></label>' +
+    '<label>Status<select name="status"><option value="P">P · Present</option><option value="HD">HD · Half Day</option><option value="WO">WO · Week Off</option><option value="CO">CO · Comp Off</option><option value="A">A · Absent</option></select></label>' +
+    (kind === 'edit' ? '<div class="g2"><label>IN time (HH:MM, optional)<input name="in_hm" placeholder="09:30" pattern="[0-2][0-9]:[0-5][0-9]"></label><label>OUT time (HH:MM, optional)<input name="out_hm" placeholder="18:30" pattern="[0-2][0-9]:[0-5][0-9]"></label></div>' : '') +
+    '<label>' + (kind === 'edit' ? 'Badlav ki wajah (zaroori)' : 'Wajah / festival ka naam (CO ke liye zaroori)') + '<input name="reason" maxlength="200" ' + (kind === 'edit' ? 'required' : '') + '></label><div class="g2"><button type="button" data-act="mclose2">Cancel</button><button class="primary">Save</button></div></form>');
+}
+
+// ---- Staff-wise / Unit-wise range
+var AR = { from: '', to: '', store: '' };
+on(/^#\/range$/, function () {
+  loading(); if (!AR.from) { AR.from = today().slice(0, 8) + '01'; AR.to = today(); }
+  ensureBoot().then(function () { return call('adminRange', { from: AR.from, to: AR.to, store_id: AR.store }); }).then(function (r) {
+    var cnt = function (c) { return ['P', 'HD', 'WO', 'CO', 'A'].map(function (k) { return '<td class="n">' + c[k] + '</td>'; }).join('') + '<td class="n">' + c.pending + '</td><td class="n">' + c.unmarked + '</td>'; };
+    var head = '<th class="n">P</th><th class="n">HD</th><th class="n">WO</th><th class="n">CO</th><th class="n">A</th><th class="n">Pending</th><th class="n">Unmarked</th><th class="n">Payable</th>';
+    shell('<div class="card"><div class="row"><label>From<input type="date" id="rf" value="' + r.from + '" data-change="drange" style="width:auto"></label><label>To<input type="date" id="rt" value="' + r.to + '" data-change="drange" style="width:auto"></label><label>Unit<select id="rs" data-change="drange" style="width:auto">' + storeOpts(AR.store, true) + '</select></label></div></div>' +
+      '<div class="card scroll"><h3>Unit-wise</h3><table><thead><tr><th>Unit</th><th class="n">Staff</th>' + head + '</tr></thead><tbody>' + r.stores.map(function (s) { return '<tr><td>' + h(s.store) + '</td><td class="n">' + s.staff + '</td>' + cnt(s) + '<td class="n"><b>' + s.payable + '</b></td></tr>'; }).join('') + '</tbody></table></div>' +
+      '<div class="card scroll"><h3>Staff-wise</h3><table><thead><tr><th>Staff</th><th>Unit</th>' + head + '</tr></thead><tbody>' + r.staff.map(function (x) { return '<tr data-act="rdet" data-uid="' + x.user_id + '" style="cursor:pointer"><td><b>' + h(x.name) + '</b><div class="small muted">' + h(x.login_id) + '</div></td><td>' + h(x.store) + '</td>' + cnt(x.counts) + '<td class="n"><b>' + x.payable + '</b></td></tr>'; }).join('') + '</tbody></table><div class="muted small mt">Kisi staff par tap karein: din-wise detail (time, selfie).</div></div>', '#/range');
+    window._range = r;
+  }).catch(function (e) { shell(msg('err', e.message)); });
+}, ['admin']);
+function rangeDetail(uid) {
+  var x = (window._range.staff || []).filter(function (s) { return Number(s.user_id) === Number(uid); })[0]; if (!x) return; var ids = [];
+  var rows = x.rows.map(function (a) { var ph = ''; ['in', 'out'].forEach(function (k) { var id = a[k + '_photo_id']; if (id) { ids.push(id); ph += '<img class="thumb" data-pid="' + id + '" data-act="ph" src="' + (PH[id] || GIF) + '"> '; } }); return '<tr><td>' + dmy(a.date) + '</td><td>' + (a.approval === 'approved' ? chip(a.status) : chip(a.approval === 'pending' ? 'pending' : 'rejected')) + '</td><td class="n">' + h(a.in_hm) + '</td><td class="n">' + h(a.out_hm) + '</td><td class="n">' + h(a.hours) + '</td><td>' + ph + '</td></tr>'; }).join('');
+  modal('<h3>' + h(x.name) + ' · ' + dmy(window._range.from) + ' → ' + dmy(window._range.to) + '</h3><div class="scroll"><table><thead><tr><th>Date</th><th>Status</th><th class="n">IN</th><th class="n">OUT</th><th class="n">Hrs</th><th></th></tr></thead><tbody>' + (rows || '<tr><td colspan="6" class="muted">Is range mein koi record nahi</td></tr>') + '</tbody></table></div><div class="row mt"><button data-act="loadph2">📷 Selfies load</button><button class="block" data-act="mclose2">Band karein</button></div>');
+  window._modalIds = ids;
+}
+
+// ---- Requests (Week Off + Regularise)
+on(/^#\/requests$/, function () {
+  loading(); ensureBoot().then(function () { return call('requests'); }).then(function (r) {
+    var b = sec('Week Off requests (' + r.wo.length + ')', r.wo.length ? '<div class="scroll"><table><tbody>' + r.wo.map(function (x) { return '<tr><td><b>' + h(x.name) + '</b><div class="small muted">' + h(x.store) + '</div></td><td>' + dmy(x.date) + '</td><td class="small muted">' + h(x.note) + '</td><td class="right"><button class="sm good" data-act="dwo" data-id="' + x.id + '" data-ok="1">Approve</button> <button class="sm danger" data-act="dwo" data-id="' + x.id + '" data-ok="0">Reject</button></td></tr>'; }).join('') + '</tbody></table></div>' : '<div class="muted">Koi pending nahi</div>');
+    b += sec('Regularise requests (' + r.reg.length + ')', r.reg.length ? r.reg.map(function (x) { return '<div style="padding:8px 0;border-bottom:1px solid var(--line)"><div class="row between"><span><b>' + h(x.name) + '</b> · ' + h(x.store) + '</span><span>' + dmy(x.date) + ' · <b>' + h(x.which) + '</b></span></div><div class="small muted">' + h(x.reason) + (x.row ? ' · abhi: ' + h(x.row.status) + '/' + h(x.row.approval) + (x.row.in_hm ? ' IN ' + h(x.row.in_hm) : '') + (x.row.out_hm ? ' OUT ' + h(x.row.out_hm) : '') : ' · abhi koi record nahi') + '</div><div class="mt"><button class="sm good" data-act="dreg" data-id="' + x.id + '" data-ok="1" data-name="' + h(x.name) + '" data-date="' + x.date + '" data-which="' + h(x.which) + '">Approve…</button> <button class="sm danger" data-act="dreg" data-id="' + x.id + '" data-ok="0" data-name="' + h(x.name) + '" data-date="' + x.date + '">Reject…</button></div></div>'; }).join('') : '<div class="muted">Koi pending nahi</div>');
+    b += sec('Haal ke faisle', (r.recent || []).map(function (x) { return '<div class="small" style="padding:3px 0">' + h(x.name) + ' · ' + dmy(x.date) + ' · ' + h(x.which) + ' · <b>' + h(x.status) + '</b>' + (x.result_status ? ' (' + h(x.result_status) + ')' : '') + (x.remark ? ' · ' + h(x.remark) : '') + '</div>'; }).join('') || '<div class="muted">—</div>');
+    shell(b, '#/requests');
+  }).catch(function (e) { shell(msg('err', e.message)); });
+}, ['admin']);
+
+// ---- Mark / CO (bulk)
+var MK = { store: '', users: [] };
+on(/^#\/mark$/, function () {
+  ensureBoot().then(function () {
+    shell('<div class="card stack"><h3>Bulk Mark / CO (festival ya extra kaam)</h3><div class="muted small">Staff chuniye, dates chuniye, status lagayein. Har badlav audit log mein jata hai.</div><label>Unit<select id="mks" data-change="mkstore">' + storeOpts(MK.store) + '</select></label><div id="mkusers" class="muted">Unit chuniye…</div></div>' +
+      '<form class="card stack" data-form="bulkmark"><div class="g2"><label>Status<select name="status"><option value="CO">CO · Comp Off</option><option value="P">P</option><option value="HD">HD</option><option value="WO">WO</option><option value="A">A</option></select></label><label>Festival / wajah<input name="reason" maxlength="200" placeholder="e.g. Diwali duty"></label></div><div class="g2"><label>From date<input type="date" name="from" required></label><label>To date<input type="date" name="to" required></label></div><div class="muted small">Ek din ke liye From = To rakhein. Mahine ke end mein poore mahine ki range bhi chalegi.</div><button class="primary block">Lagayein</button></form>', '#/mark');
+    if (MK.store || S.stores[0]) { MK.store = MK.store || String(S.stores.filter(function (s) { return s.active !== 0; })[0].id); $('mks').value = MK.store; loadMkUsers(); }
+  });
+}, ['admin']);
+function loadMkUsers() { call('users', { store_id: MK.store }).then(function (u) { MK.users = u.filter(function (x) { return x.active && x.role !== 'admin'; }); $('mkusers').innerHTML = '<label class="row"><input type="checkbox" id="mkall" data-change="mkall"> <b>Sab chuniye (' + MK.users.length + ')</b></label>' + MK.users.map(function (x) { return '<label class="row" style="color:var(--ink)"><input type="checkbox" class="mku" value="' + x.id + '"> ' + h(x.name) + ' <span class="small muted">' + h(x.login_id) + '</span></label>'; }).join(''); }).catch(fail); }
+
+// ---- Payroll / month
+var AM = { month: '', store: '' };
+on(/^#\/month$/, function () { renderMonth(); }, ['admin']);
+function renderMonth() {
+  loading(); AM.month = AM.month || addMonth(today().slice(0, 7), 0);
+  ensureBoot().then(function () { return Promise.all([call('monthReport', { month: AM.month, store_id: AM.store }), call('locks')]); }).then(function (a) {
+    var r = a[0], rowsH = r.rows.map(function (x) { return '<tr><td>' + h(x.store) + '</td><td>' + h(x.name) + '<div class="small muted">' + h(x.login_id) + '</div></td><td class="n">' + x.P + '</td><td class="n">' + x.HD + '</td><td class="n">' + x.WO + '</td><td class="n">' + x.CO + '</td><td class="n">' + x.A + '</td><td class="n">' + x.pending + '</td><td class="n">' + x.unmarked + '</td><td class="n"><b>' + x.payable + '</b></td></tr>'; }).join('');
+    var tot = function (t) { return '<tr style="font-weight:700;background:#fafbfd"><td colspan="2">' + h(t.store) + ' (' + t.staff + ' staff)</td><td class="n">' + t.P + '</td><td class="n">' + t.HD + '</td><td class="n">' + t.WO + '</td><td class="n">' + t.CO + '</td><td class="n">' + t.A + '</td><td class="n">' + t.pending + '</td><td class="n">' + t.unmarked + '</td><td class="n">' + t.payable + '</td></tr>'; };
+    shell('<div class="card noprint"><div class="row"><label>Mahina<input type="month" id="mm" value="' + r.month + '" data-change="dmonth" style="width:auto"></label><label>Unit<select id="ms" data-change="dmonth" style="width:auto">' + storeOpts(AM.store, true) + '</select></label><span>' + (r.locked ? '<span class="chip rejected">🔒 LOCKED</span>' : '<span class="chip">Open</span>') + '</span></div>' +
+      '<div class="row mt"><button class="primary" data-act="csv">⬇️ CSV (Excel)</button><button data-act="print">🖨️ Print</button><button data-act="unm">Unmarked din Absent (preview)</button>' + (r.locked ? '<button class="danger" data-act="unlock">🔓 Unlock</button>' : '<button data-act="lockm">🔒 Lock month</button>') + '</div>' +
+      (r.pending_total || r.unmarked_total ? '<div class="msg info mt">Pending: <b>' + r.pending_total + '</b> din · Unmarked: <b>' + r.unmarked_total + '</b> din. Payroll se pehle inhe clear karein.</div>' : '') + '</div>' +
+      '<div class="card"><div class="print-only"><h2>' + h(r.company) + ' · Attendance ' + h(monthLabel(r.month)) + (r.locked ? ' (LOCKED)' : '') + '</h2></div><div class="muted small">' + h(r.formula) + ' · P Present · HD Half Day · WO Week Off · CO Comp Off · A Absent</div>' +
+      '<div class="scroll mt"><table><thead><tr><th>Unit</th><th>Staff</th><th class="n">P</th><th class="n">HD</th><th class="n">WO</th><th class="n">CO</th><th class="n">A</th><th class="n">Pending</th><th class="n">Unmarked</th><th class="n">Payable</th></tr></thead><tbody>' + rowsH + r.stores.map(tot).join('') + (r.stores.length > 1 ? tot(r.total) : '') + '</tbody></table></div></div>' +
+      '<div class="card noprint small muted"><b>Locks:</b> ' + (a[1].length ? a[1].map(function (l) { return h(l.month) + (l.active ? ' 🔒' : ' (unlocked: ' + h(l.unlock_reason) + ')'); }).join(' · ') : 'koi nahi') + '</div>', '#/month');
+  }).catch(function (e) { shell(msg('err', e.message)); });
+}
+function monthRange() { var m = AM.month, t = today(), last = addDays(addMonth(m, 1) + '-01', -1), y = addDays(t, -1); return { from: m + '-01', to: last < y ? last : y }; }
+function download(name, text) { var blob = new Blob(['\ufeff' + text], { type: 'text/csv;charset=utf-8' }), a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(function () { a.remove(); URL.revokeObjectURL(a.href); }, 500); }
+
+// ---- People: stores, staff, CSV import
+var PP = { tab: 'staff', store: '', q: '' };
+on(/^#\/people$/, function () { renderPeople(); }, ['admin']);
+function renderPeople() {
+  loading(); ensureBoot().then(function () { return PP.tab === 'staff' ? call('users', { store_id: PP.store, q: PP.q }) : Promise.resolve([]); }).then(function (users) {
+    var tabs = '<div class="row noprint">' + [['staff', 'Staff'], ['stores', 'Units'], ['csv', 'CSV import']].map(function (t) { return '<button class="sm ' + (PP.tab === t[0] ? 'primary' : '') + '" data-act="ptab" data-t="' + t[0] + '">' + t[1] + '</button>'; }).join('') + '</div>', b = '';
+    if (PP.tab === 'staff') {
+      b = '<div class="card"><div class="row"><label>Unit<select id="ps" data-change="pfilter" style="width:auto">' + storeOpts(PP.store, true) + '</select></label><label>Search<input id="pq" value="' + h(PP.q) + '" data-change="pfilter" style="width:auto"></label><button class="primary" data-act="adduser">+ Staff add</button></div></div><div class="card scroll"><table><thead><tr><th>Staff</th><th>Unit</th><th>Role</th><th>Phone</th><th></th></tr></thead><tbody>' +
+        users.map(function (u) { return '<tr' + (u.active ? '' : ' style="opacity:.5"') + '><td><b>' + h(u.name) + '</b>' + (u.demo ? ' <span class="chip">EXAMPLE</span>' : '') + '<div class="small muted">' + h(u.login_id) + (u.active ? '' : ' · BAND') + '</div></td><td>' + h(u.store) + '</td><td>' + h(u.role) + '</td><td>' + h(u.phone) + '</td><td style="white-space:nowrap"><button class="sm" data-act="edituser" data-id="' + u.id + '">Edit</button> <button class="sm" data-act="resetpw" data-id="' + u.id + '" data-name="' + h(u.name) + '">Password reset</button></td></tr>'; }).join('') + '</tbody></table></div>';
+      window._users = users;
+    } else if (PP.tab === 'stores') {
+      b = '<div class="card"><button class="primary" data-act="addstore">+ Unit add</button></div><div class="card scroll"><table><thead><tr><th>Code</th><th>Name</th><th>Address</th><th></th></tr></thead><tbody>' + S.stores.map(function (s) { return '<tr' + (s.active === 0 ? ' style="opacity:.5"' : '') + '><td>' + h(s.code) + '</td><td>' + h(s.name) + (s.active === 0 ? ' · BAND' : '') + '</td><td class="small muted">' + h(s.address) + '</td><td><button class="sm" data-act="editstore" data-id="' + s.id + '">Edit</button></td></tr>'; }).join('') + '</tbody></table></div>';
+    } else {
+      b = '<form class="card stack" data-form="csv"><h3>Staff CSV import</h3><div class="muted small">Header zaroori: <code>staff_id,name,store</code>. Optional: phone, role (staff / manager), temp_password, joined_on (YYYY-MM-DD). Unit = unit code ya naam (WH ya MFGrein). Har staff ka temporary password ek baar dikhega.</div><div class="row"><button type="button" class="sm" data-act="templ">Template download</button><label class="btn sm">CSV file chuniye<input type="file" accept=".csv,text/csv,text/plain" id="csvfile" class="hidden" data-change="csvfile"></label></div><textarea name="csv" id="csvtext" rows="8" placeholder="staff_id,name,store,phone&#10;S001,Example Name,WH,9999999999"></textarea><button class="primary block">Import</button></form>';
+    }
+    shell(tabs + '<div class="mt"></div>' + b, '#/people');
+  }).catch(function (e) { shell(msg('err', e.message)); });
+}
+function storeForm(s) { s = s || {}; modal('<h3>' + (s.id ? 'Unit edit' : 'Naya unit') + '</h3><form class="stack" data-form="store"><input type="hidden" name="id" value="' + (s.id || '') + '"><div class="g2"><label>Code<input name="code" value="' + h(s.code || '') + '" required maxlength="20"></label><label>Naam<input name="name" value="' + h(s.name || '') + '" required></label></div><label>Address<input name="address" value="' + h(s.address || '') + '"></label>' + (s.id ? '<label class="row"><input type="checkbox" name="active" value="1"' + (s.active !== 0 ? ' checked' : '') + '> Active</label>' : '') + '<div class="g2"><button type="button" data-act="mclose2">Cancel</button><button class="primary">Save</button></div></form>'); }
+function userForm(u) {
+  u = u || {}; modal('<h3>' + (u.id ? 'Staff edit' : 'Naya staff') + '</h3><form class="stack" data-form="user"><input type="hidden" name="id" value="' + (u.id || '') + '"><div class="g2"><label>Staff ID<input name="login_id" value="' + h(u.login_id || '') + '" required></label><label>Naam<input name="name" value="' + h(u.name || '') + '" required></label></div><div class="g2"><label>Unit<select name="store_id">' + storeOpts(u.store_id || PP.store) + '</select></label><label>Role<select name="role"><option value="staff"' + (u.role === 'staff' || !u.role ? ' selected' : '') + '>Staff</option><option value="manager"' + (u.role === 'manager' ? ' selected' : '') + '>Supervisor</option>' + (u.role === 'admin' ? '<option value="admin" selected>Admin</option>' : '') + '</select></label></div><div class="g2"><label>Phone<input name="phone" value="' + h(u.phone || '') + '" inputmode="numeric"></label><label>Joining date<input type="date" name="joined_on" value="' + h(u.joined_on || '') + '"></label></div>' + (u.id ? '<label class="row"><input type="checkbox" name="active" value="1"' + (u.active ? ' checked' : '') + '> Active (band karne par login nahi chalega)</label>' : '<label>Temporary password (khali = auto)<input name="temp_password" autocomplete="off"></label>') + '<div class="g2"><button type="button" data-act="mclose2">Cancel</button><button class="primary">Save</button></div></form>');
+}
+function showPasswords(title, list) {
+  modal('<h3>' + h(title) + '</h3><div class="msg info">Yeh password sirf ab dikhega. Staff ko turant do. Pehle login par woh naya password banayenge.</div><div class="scroll"><table><tbody>' + list.map(function (x) { return '<tr><td>' + h(x.login_id) + '</td><td>' + h(x.name || '') + '</td><td><b>' + h(x.temp_password) + '</b></td></tr>'; }).join('') + '</tbody></table></div><div class="row mt"><button data-act="copypw">Copy</button><button class="primary block" data-act="mclose2">Ho gaya</button></div>');
+  window._pwList = list;
+}
+
+// ---- Audit + Settings
+var AU = { from: '', to: '', action: '' };
+on(/^#\/audit$/, function () {
+  loading(); ensureBoot().then(function () { return call('auditLog', { from: AU.from, to: AU.to, action: AU.action }); }).then(function (r) {
+    AU.from = r.from; AU.to = r.to;
+    shell('<div class="card"><div class="row"><label>From<input type="date" id="af" value="' + r.from + '" data-change="daudit" style="width:auto"></label><label>To<input type="date" id="at" value="' + r.to + '" data-change="daudit" style="width:auto"></label><label>Action<input id="aa" value="' + h(AU.action) + '" placeholder="modify, approve…" data-change="daudit" style="width:auto"></label></div><div class="small muted mt">' + r.total + ' entries (aakhri 400 dikh rahe hain)</div></div>' +
+      '<div class="card scroll"><table><thead><tr><th>Kab</th><th>Kisne</th><th>Action</th><th>Staff</th><th>Date</th><th>Purana</th><th>Naya</th><th>Wajah</th></tr></thead><tbody>' + r.rows.map(function (x) { return '<tr><td class="small">' + h(String(x.at).replace('T', ' ').slice(0, 16)) + 'Z</td><td>' + h(x.actor_name) + '</td><td><b>' + h(x.action) + '</b></td><td>' + h(x.target_name) + '</td><td>' + dmy(x.date) + '</td><td class="small">' + h(x.old_value) + '</td><td class="small">' + h(x.new_value) + '</td><td class="small">' + h(x.reason) + '</td></tr>'; }).join('') + '</tbody></table><div class="small muted mt">Kab = UTC mein (IST = +5:30)</div></div>', '#/audit');
+  }).catch(function (e) { shell(msg('err', e.message)); });
+}, ['admin']);
+on(/^#\/settings$/, function () {
+  loading(); ensureBoot().then(function () { return call('settings'); }).then(function (rows) {
+    shell('<form class="card stack" data-form="settings"><h3>Settings</h3>' + rows.map(function (s) { return '<label>' + h(s.key) + '<input name="' + h(s.key) + '" value="' + h(s.value) + '"><span class="small">' + h(s.note) + '</span></label>'; }).join('') + '<button class="primary block">Save</button></form>', '#/settings');
+  }).catch(function (e) { shell(msg('err', e.message)); });
+}, ['admin']);
+
+// =====================================================================================================
+// EVENTS
+// =====================================================================================================
+function needReason(label) { return null; }
+function done(msgText) { closeModal(); if (msgText) toast(msgText); route(); }
+var ACT = {
+  logout: function () { logout(); }, reload: function () { route(); }, mclose: function () { closeModal(); }, mclose2: function () { closeModal(); },
+  showpw: function (b) { var i = b.parentNode.querySelector('input'); i.type = i.type === 'password' ? 'text' : 'password'; b.textContent = i.type === 'password' ? 'Show' : 'Hide'; },
+  punch: function (b) { doPunch(b.getAttribute('data-kind'), b); },
+  cancelwo: function (b) { call('cancelWO', { id: b.getAttribute('data-id') }).then(function () { done('Cancel ho gayi'); }).catch(fail); },
+  mwo: function (b) { var ok = b.getAttribute('data-ok') === '1', rm = ok ? '' : prompt('Reject ki wajah?') || ''; if (!ok && rm.length < 3) return toast('Wajah likhna zaroori hai', 'err'); call('decideWO', { id: b.getAttribute('data-id'), ok: ok, remark: rm }).then(function () { done('Ho gaya'); }).catch(fail); },
+  calday: function (b) {
+    var d = b.getAttribute('data-date'), t = today(), win = (S.boot && S.boot.reg_window_days) || 1;
+    if (d >= t) modal('<h3>' + dmy(d) + '</h3><form class="stack" data-form="wo"><input type="hidden" name="date" value="' + d + '"><label>Note (optional)<input name="note" maxlength="100"></label><button class="primary block">Week Off maangein</button><button type="button" class="block" data-act="mclose2">Band</button></form>');
+    else if (d >= addDays(t, -win)) modal('<h3>' + dmy(d) + ' · Regularise</h3><form class="stack" data-form="reg"><input type="hidden" name="date" value="' + d + '"><label>Kya chhoota<select name="which"><option value="BOTH">IN + OUT</option><option value="IN">Sirf IN</option><option value="OUT">Sirf OUT</option></select></label><label>Wajah<textarea name="reason" rows="2" required></textarea></label><button class="primary block">Request bhejein</button><button type="button" class="block" data-act="mclose2">Band</button></form>');
+    else toast('Purani date: regularise ka time nikal gaya. Admin se baat karein.', 'err');
+  },
+  ph: function (b) { showPhoto(b.getAttribute('data-pid')); },
+  loadph: function () { loadPhotos(window._dayIds || []).catch(fail); }, loadph2: function () { loadPhotos(window._modalIds || []).catch(fail); },
+  appr: function (b) { call('approve', { ids: [b.getAttribute('data-id')] }).then(function () { done('Approved ✓'); }).catch(fail); },
+  rej: function (b) { var id = b.getAttribute('data-id'); modal('<h3>Reject</h3><form class="stack" data-form="rej" data-id="' + id + '"><label>Wajah (zaroori)<input name="reason" required maxlength="200"></label><div class="g2"><button type="button" data-act="mclose2">Cancel</button><button class="danger">Reject</button></div></form>'); },
+  bulkappr: function () { if (!confirm('Is din ke saare Pending punch approve karein?')) return; call('approve', { date: AD.date, store_id: AD.store }).then(function (r) { done(r.done + ' approved ✓'); }).catch(fail); },
+  markm: function (b) { rowForm('Mark', b.getAttribute('data-uid'), b.getAttribute('data-name'), 'mark'); }, editm: function (b) { rowForm('Edit', b.getAttribute('data-uid'), b.getAttribute('data-name'), 'edit'); },
+  dprev: function () { AD.date = addDays(AD.date || today(), -1); renderDay(); }, dnext: function () { AD.date = addDays(AD.date || today(), 1); renderDay(); },
+  rdet: function (b) { rangeDetail(b.getAttribute('data-uid')); },
+  dwo: function (b) { var ok = b.getAttribute('data-ok') === '1'; if (ok) call('decideWO', { id: b.getAttribute('data-id'), ok: true }).then(function () { done('Approved ✓'); }).catch(fail); else modal('<h3>WO reject</h3><form class="stack" data-form="wor" data-id="' + b.getAttribute('data-id') + '"><label>Wajah (zaroori)<input name="remark" required></label><div class="g2"><button type="button" data-act="mclose2">Cancel</button><button class="danger">Reject</button></div></form>'); },
+  dreg: function (b) {
+    var ok = b.getAttribute('data-ok') === '1', id = b.getAttribute('data-id'), which = b.getAttribute('data-which') || '';
+    modal('<h3>' + (ok ? 'Approve' : 'Reject') + ': ' + h(b.getAttribute('data-name')) + ' · ' + dmy(b.getAttribute('data-date')) + '</h3><form class="stack" data-form="regd" data-id="' + id + '" data-ok="' + (ok ? 1 : 0) + '">' +
+      (ok ? '<label>Result status<select name="status"><option value="P">P · Present</option><option value="HD">HD · Half Day</option><option value="WO">WO</option><option value="CO">CO</option><option value="A">A</option></select></label><div class="g2"><label>IN time (optional)<input name="in_hm" placeholder="09:30"' + (which === 'OUT' ? ' disabled' : '') + '></label><label>OUT time (optional)<input name="out_hm" placeholder="18:30"' + (which === 'IN' ? ' disabled' : '') + '></label></div>' : '') +
+      '<label>Remark' + (ok ? ' (optional)' : ' (zaroori)') + '<input name="remark" ' + (ok ? '' : 'required') + '></label><div class="g2"><button type="button" data-act="mclose2">Cancel</button><button class="' + (ok ? 'primary' : 'danger') + '">' + (ok ? 'Approve' : 'Reject') + '</button></div></form>');
+  },
+  csv: function () { call('monthCsv', { month: AM.month, store_id: AM.store }).then(function (r) { download(r.name, r.csv); toast(r.count + ' staff ki CSV download ho gayi'); }).catch(fail); },
+  print: function () { window.print(); },
+  unm: function () {
+    var r = monthRange(); call('unmarkedPreview', { from: r.from, to: r.to, store_id: AM.store }).then(function (p) {
+      var by = {}; p.rows.forEach(function (x) { (by[x.name] = by[x.name] || []).push(dmy(x.date).slice(0, 5)); });
+      modal('<h3>Unmarked din (preview)</h3><div class="muted small">' + dmy(p.from) + ' se ' + dmy(p.to) + ' · jin dino ka koi attendance record nahi (ya rejected). Abhi kuch badla nahi hai.</div><div class="msg info mt"><b>' + p.count + '</b> din Absent honge' + (p.count > p.rows.length ? ' (pehle ' + p.rows.length + ' dikh rahe)' : '') + '</div><div class="scroll" style="max-height:40vh">' + Object.keys(by).map(function (n) { return '<div class="small"><b>' + h(n) + '</b>: ' + h(by[n].join(', ')) + '</div>'; }).join('') + '</div>' + (p.count ? '<form class="stack mt" data-form="absent" data-from="' + p.from + '" data-to="' + p.to + '" data-n="' + p.count + '"><label>Wajah<input name="reason" value="No attendance record (marked Absent by Admin)"></label><div class="g2"><button type="button" data-act="mclose2">Cancel</button><button class="danger">Haan, ' + p.count + ' din Absent karein</button></div></form>' : '<button class="block mt" data-act="mclose2">Band</button>'));
+    }).catch(fail);
+  },
+  lockm: function () {
+    var r = monthRange(); call('unmarkedPreview', { from: AM.month + '-01', to: addDays(addMonth(AM.month, 1) + '-01', -1) }).then(function (p) {
+      modal('<h3>' + monthLabel(AM.month) + ' lock karein</h3><div class="muted small">Lock ke baad is mahine mein koi badlav nahi hoga (unlock ke liye wajah likhni padegi).</div><form class="stack mt" data-form="lock" data-n="' + p.count + '"><div class="msg info">Unmarked din: <b>' + p.count + '</b></div>' + (p.count ? '<label class="row" style="color:var(--ink)"><input type="checkbox" name="mark_absent" value="1"> Inhe Absent mark karke lock karein</label>' : '') + '<label class="row" style="color:var(--ink)"><input type="checkbox" name="force" value="1"> Pending / unmarked ke bawajood zabardasti lock (force)</label><div class="g2"><button type="button" data-act="mclose2">Cancel</button><button class="primary">🔒 Lock</button></div></form>');
+    }).catch(fail);
+  },
+  unlock: function () { modal('<h3>Unlock ' + monthLabel(AM.month) + '</h3><form class="stack" data-form="unlock"><label>Wajah (zaroori)<input name="reason" required></label><div class="g2"><button type="button" data-act="mclose2">Cancel</button><button class="danger">Unlock</button></div></form>'); },
+  ptab: function (b) { PP.tab = b.getAttribute('data-t'); renderPeople(); },
+  addstore: function () { storeForm(); }, editstore: function (b) { storeForm(S.stores.filter(function (s) { return String(s.id) === b.getAttribute('data-id'); })[0]); },
+  adduser: function () { userForm(); }, edituser: function (b) { userForm((window._users || []).filter(function (u) { return String(u.id) === b.getAttribute('data-id'); })[0]); },
+  resetpw: function (b) { if (!confirm(b.getAttribute('data-name') + ' ka password reset karein?')) return; call('resetPassword', { user_id: b.getAttribute('data-id') }).then(function (r) { showPasswords('Naya temporary password', [r]); }).catch(fail); },
+  copypw: function () { var t = (window._pwList || []).map(function (x) { return x.login_id + '\t' + x.temp_password; }).join('\n'); if (navigator.clipboard) navigator.clipboard.writeText(t).then(function () { toast('Copy ho gaya'); }, function () { toast('Copy nahi hua', 'err'); }); },
+  templ: function () { download('wh-mfg-staff-template.csv', 'staff_id,name,store,phone,role,temp_password,joined_on\nS001,Example Name,WH,9999999999,staff,,2026-01-01\n'); }
+};
+document.addEventListener('click', function (e) {
+  var t = e.target.closest ? e.target.closest('[data-act]') : null; if (!t) return;
+  var a = t.getAttribute('data-act'); if (a === 'mclose' && e.target.closest('[data-stop]')) return;
+  if (ACT[a]) { if (t.tagName === 'A') e.preventDefault(); ACT[a](t, e); }
+});
+var CHG = {
+  amenu: function (el) { location.hash = el.value; }, stdate: function (el) { STD = el.value; route(); },
+  dday: function () { AD.date = $('dd').value; AD.store = $('ds').value; renderDay(); }, drange: function () { AR.from = $('rf').value; AR.to = $('rt').value; AR.store = $('rs').value; route(); },
+  mkstore: function (el) { MK.store = el.value; loadMkUsers(); }, mkall: function (el) { document.querySelectorAll('.mku').forEach(function (c) { c.checked = el.checked; }); },
+  dmonth: function () { AM.month = $('mm').value || AM.month; AM.store = $('ms').value; renderMonth(); }, pfilter: function () { PP.store = $('ps').value; PP.q = $('pq').value; renderPeople(); },
+  daudit: function () { AU.from = $('af').value; AU.to = $('at').value; AU.action = $('aa').value.trim(); route(); },
+  csvfile: function (el) { var f = el.files[0]; if (!f) return; var fr = new FileReader(); fr.onload = function () { $('csvtext').value = fr.result; }; fr.readAsText(f); }
+};
+document.addEventListener('change', function (e) { var t = e.target.closest ? e.target.closest('[data-change]') : null; if (t && CHG[t.getAttribute('data-change')]) CHG[t.getAttribute('data-change')](t); });
+var FORMS = {
+  login: function (f, d) { var btn = f.querySelector('button.primary'); btn.disabled = true; call('login', { login_id: d.login_id, password: d.password }).then(function (r) { localStorage.setItem('whm_login', d.login_id); saveSession(r.token, r.user); S.boot = null; location.hash = r.user.must_change ? '#/pw' : '#/home'; }).catch(function (e) { btn.disabled = false; $('lerr').innerHTML = msg('err', e.message); }); },
+  pw: function (f, d) { if (d.pw !== d.pw2) return toast('Dono naye password same nahi hain', 'err'); call('changePassword', { old: d.old, pw: d.pw }).then(function (r) { saveSession(r.token, Object.assign({}, S.user, { must_change: 0 })); S.boot = null; toast('Password badal gaya ✓'); location.hash = '#/home'; }).catch(fail); },
+  wo: function (f, d) { call('requestWO', { date: d.date, note: d.note }).then(function (r) { done(r.message); }).catch(fail); },
+  reg: function (f, d) { call('requestReg', { date: d.date, which: d.which, reason: d.reason }).then(function (r) { done(r.message); }).catch(fail); },
+  rej: function (f, d) { call('reject', { ids: [f.getAttribute('data-id')], reason: d.reason }).then(function () { done('Rejected'); }).catch(fail); },
+  mark: function (f, d) { call('mark', { user_id: f.getAttribute('data-uid'), date: d.date, status: d.status, reason: d.reason }).then(function () { AD.date = d.date; done('Mark ho gaya ✓'); }).catch(fail); },
+  edit: function (f, d) { call('modify', { user_id: f.getAttribute('data-uid'), date: d.date, status: d.status, in_hm: d.in_hm, out_hm: d.out_hm, reason: d.reason }).then(function () { AD.date = d.date; done('Badlav save ho gaya (audit log mein) ✓'); }).catch(fail); },
+  wor: function (f, d) { call('decideWO', { id: f.getAttribute('data-id'), ok: false, remark: d.remark }).then(function () { done('Rejected'); }).catch(fail); },
+  regd: function (f, d) { call('decideReg', { id: f.getAttribute('data-id'), ok: f.getAttribute('data-ok') === '1', status: d.status, in_hm: d.in_hm, out_hm: d.out_hm, remark: d.remark }).then(function (r) { done(r.status === 'approved' ? 'Approved ✓' : 'Rejected'); }).catch(fail); },
+  absent: function (f, d) { call('markUnmarkedAbsent', { from: f.getAttribute('data-from'), to: f.getAttribute('data-to'), store_id: AM.store, confirm_count: Number(f.getAttribute('data-n')), reason: d.reason }).then(function (r) { done(r.marked + ' din Absent mark ho gaye'); }).catch(fail); },
+  lock: function (f, d) { call('lockMonth', { month: AM.month, force: d.force ? 1 : 0, mark_absent: d.mark_absent ? 1 : 0, expect_unmarked: Number(f.getAttribute('data-n')) }).then(function () { done('Mahina lock ho gaya 🔒'); }).catch(fail); },
+  unlock: function (f, d) { call('unlockMonth', { month: AM.month, reason: d.reason }).then(function () { done('Unlock ho gaya'); }).catch(fail); },
+  bulkmark: function (f, d) {
+    var ids = Array.prototype.map.call(document.querySelectorAll('.mku:checked'), function (c) { return c.value; }); if (!ids.length) return toast('Kam se kam ek staff chuniye', 'err'); if (d.to < d.from) return toast('To date From se pehle hai', 'err');
+    if (!confirm(ids.length + ' staff ko ' + d.status + ' lagana hai (' + dmy(d.from) + ' se ' + dmy(d.to) + ')?')) return;
+    call('mark', { user_ids: ids, from: d.from, to: d.to, status: d.status, reason: d.reason }).then(function (r) { toast(r.changed + ' entries ho gayi ✓'); }).catch(fail);
+  },
+  store: function (f, d) { call('saveStore', { id: d.id, code: d.code, name: d.name, address: d.address, active: f.querySelector('[name=active]') ? (d.active ? 1 : 0) : undefined }).then(function () { S.boot = null; return ensureBoot(); }).then(function () { done('Store save ✓'); }).catch(fail); },
+  user: function (f, d) { var payload = { id: d.id, login_id: d.login_id, name: d.name, store_id: d.store_id, role: d.role, phone: d.phone, joined_on: d.joined_on, temp_password: d.temp_password }; if (d.id) payload.active = d.active ? 1 : 0; call('saveUser', payload).then(function (r) { if (r.temp_password) { closeModal(); showPasswords('Staff add ho gaya', [{ login_id: r.login_id, name: d.name, temp_password: r.temp_password }]); renderPeople(); } else done('Save ✓'); }).catch(fail); },
+  csv: function (f, d) { call('importStaffCsv', { csv: d.csv }).then(function (r) { var sk = r.skipped.length ? '<div class="msg err">Skip hue (' + r.skipped.length + '): ' + r.skipped.map(function (x) { return 'row ' + x.row + ' ' + h(x.login_id) + ': ' + h(x.reason); }).join(' · ') + '</div>' : ''; showPasswords(r.created + ' staff add hue', r.passwords); if (sk) $('modal').querySelector('.box').insertAdjacentHTML('beforeend', sk); }).catch(fail); },
+  settings: function (f, d) { call('saveSettings', { values: d }).then(function (r) { toast(r.changed.length ? 'Save ✓ (' + r.changed.join(', ') + ')' : 'Koi badlav nahi'); }).catch(fail); }
+};
+document.addEventListener('submit', function (e) { var f = e.target; var k = f.getAttribute && f.getAttribute('data-form'); if (!k || !FORMS[k]) return; e.preventDefault(); FORMS[k](f, formData(f)); });
+
+// ---- start
+if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) navigator.serviceWorker.register('sw.js').catch(function () {});
+if (S.token && S.user && S.user.must_change) { location.hash = '#/pw'; }
+route();
+</script>
+</body>
+</html>
